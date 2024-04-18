@@ -1,6 +1,8 @@
 from query_data import query_rag
 from langchain_community.llms.ollama import Ollama
 
+from query_data import OLLAMA_MODEL
+
 EVAL_PROMPT = """
 Expected Response: {expected_response}
 Actual Response: {actual_response}
@@ -13,6 +15,10 @@ def test_monopoly_rules():
     assert query_and_validate(
         question="How much total money does a player start with in Monopoly? (Answer with the number only)",
         expected_response="$1500",
+    )
+    assert query_and_validate(
+        question="What is the p.o. box of Hasbro Games? (Answer with the address only)",
+        expected_response="P.O. Box 200, Pawtucket, RI 02862",
     )
 
 
@@ -29,7 +35,7 @@ def query_and_validate(question: str, expected_response: str):
         expected_response=expected_response, actual_response=response_text
     )
 
-    model = Ollama(model="mistral")
+    model = Ollama(model=OLLAMA_MODEL)
     evaluation_results_str = model.invoke(prompt)
     evaluation_results_str_cleaned = evaluation_results_str.strip().lower()
 
