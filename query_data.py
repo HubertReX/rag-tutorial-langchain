@@ -1,17 +1,14 @@
 import argparse
-from langchain.vectorstores.chroma import Chroma
-from langchain.prompts import ChatPromptTemplate
-from langchain_community.llms.ollama import Ollama
 from rich import print
 from rich.pretty import Pretty
 from rich.console import Console
 from rich.status import Status
 
 
-DEBUG = True
+DEBUG = False
 NUMBER_OF_CONTEXT_BINDINGS = 3
 CHROMA_PATH = "chroma"
-OLLAMA_MODEL = "wizardlm2" # llama3, llama2 (=7b), llama2:13b, mistral, wizardlm2
+OLLAMA_MODEL = "mistral" # llama3, llama2 (=7b), llama2:13b, mistral, wizardlm2
 
 PROMPT_TEMPLATE = """
 Answer the question based only on the following context:
@@ -37,10 +34,14 @@ def main():
 
 def query_rag(query_text: str, status: Status | None = None):
     # Prepare the DB.
-    if status:
-        status.update(status="[bold blue]Starting model...")
+    from langchain.vectorstores.chroma import Chroma
+    from langchain.prompts import ChatPromptTemplate
+    from langchain_community.llms.ollama import Ollama
+        
     from get_embedding_function import get_embedding_function
 
+    if status:
+        status.update(status="[bold blue]Initializing ChromaDB...")
     embedding_function = get_embedding_function()
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
 

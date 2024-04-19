@@ -11,12 +11,12 @@ from langchain.vectorstores.chroma import Chroma
 CHROMA_PATH = "chroma"
 DATA_PATH = "data"
 
-CHUNK_SIZE = 800
+CHUNK_SIZE = 600
 CHUNK_OVERLAP = 80
 
 def main():
 
-    # Check if the database should be cleared (using the --clear flag).
+    # Check if the database should be cleared (using the --reset flag).
     parser = argparse.ArgumentParser()
     parser.add_argument("--reset", action="store_true", help="Reset the database.")
     args = parser.parse_args()
