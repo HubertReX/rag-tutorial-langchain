@@ -1,5 +1,6 @@
 from query_data import query_rag
 from langchain_community.llms.ollama import Ollama
+from rich import print
 
 from query_data import OLLAMA_MODEL
 
@@ -11,11 +12,13 @@ Actual Response: {actual_response}
 """
 
 
-def test_monopoly_rules():
+def test_monopoly_start_money():
     assert query_and_validate(
         question="How much total money does a player start with in Monopoly? (Answer with the number only)",
         expected_response="$1500",
     )
+    
+def test_monopoly_po_box():
     assert query_and_validate(
         question="What is the p.o. box of Hasbro Games? (Answer with the address only)",
         expected_response="P.O. Box 200, Pawtucket, RI 02862",
@@ -43,13 +46,13 @@ def query_and_validate(question: str, expected_response: str):
 
     if "true" in evaluation_results_str_cleaned:
         # Print response in Green if it is correct.
-        print("\033[92m" + f"Response: {evaluation_results_str_cleaned}" + "\033[0m")
+        print(f"[green]Response: {evaluation_results_str_cleaned}[/]")
         return True
     elif "false" in evaluation_results_str_cleaned:
         # Print response in Red if it is incorrect.
-        print("\033[91m" + f"Response: {evaluation_results_str_cleaned}" + "\033[0m")
+        print(f"[red]Response: {evaluation_results_str_cleaned}[/]")
         return False
     else:
         raise ValueError(
-            f"Invalid evaluation result. Cannot determine if 'true' or 'false'."
+            f"[red]Invalid evaluation result. Cannot determine if 'true' or 'false'.[/]"
         )
