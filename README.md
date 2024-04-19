@@ -16,6 +16,7 @@ See this [video](https://www.youtube.com/watch?v=2TJxpyO3ei4&ab_channel=pixegami
 
 * embed sample documents in PDF format (from **data** folder)
 * update embeddings if documents have changed
+* results show reference to the source of information (document name + page + chunk ID)
 * use purely OpenSource solutions:
   * [Ollama](https://github.com/ollama/ollama),
   * [llama2](https://huggingface.co/docs/transformers/model_doc/llama2),
@@ -28,6 +29,17 @@ See this [video](https://www.youtube.com/watch?v=2TJxpyO3ei4&ab_channel=pixegami
 * model selection should be possible as command line parameter
 * add debug mode to print more info
 * add web UI (e.g. [Gradio](https://www.gradio.app/))
+* thanks to [langchain](https://python.langchain.com/docs/get_started/introduction) it should be easy to use other file [formats](https://python.langchain.com/docs/modules/data_connection/document_loaders/):
+  * Office
+  * csv
+  * HTML
+  * json
+  * Markdown
+  * or even more with [Document loaders](https://python.langchain.com/docs/integrations/document_loaders/)
+    * AWS/Azure/Google Cloud
+    * Confluence
+    * git
+    * Slack
 
 ## Known issues
 
@@ -140,12 +152,15 @@ pip install -r requirements.txt
     # one is enough to start
     # change OLLAMA_MODEL in query_data.py
 
-    # basic llama 2 7B model
-    ollama pull llama2 (3.8 GB)
+    # basic llama 2 7B model (3.8 GB)
+    ollama pull llama2
     
     # slower but better llama 2 13b model (and bigger: 7.4 GB)
     ollama pull llama2:13b
     
+    # freshly released (18-04-24) llama 3 8B model (4.7 GB) - NOT WORKING for now
+    ollama pull llama3
+
     # same size as llama2:7b, but performance of llama2:13b (4.1 GB)
     ollama pull mistral
 
@@ -177,6 +192,7 @@ pip install -r requirements.txt
     ollama run wizardlm2
 
     # optional - preview requests and responses (run in separate terminal)
+    # first close the ollama app using icon in tray, next run this command
     ollama serve 
 
     # remove model
