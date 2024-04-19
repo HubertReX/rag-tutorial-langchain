@@ -11,6 +11,8 @@ from langchain.vectorstores.chroma import Chroma
 CHROMA_PATH = "chroma"
 DATA_PATH = "data"
 
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 80
 
 def main():
 
@@ -35,8 +37,8 @@ def load_documents():
 
 def split_documents(documents: list[Document]):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=80,
+        chunk_size=CHUNK_SIZE,
+        chunk_overlap=CHUNK_OVERLAP,
         length_function=len,
         is_separator_regex=False,
     )
@@ -97,6 +99,7 @@ def calculate_chunk_ids(chunks):
 
         # Add it to the page meta-data.
         chunk.metadata["id"] = chunk_id
+        chunk.metadata["chunk_index"] = current_chunk_index
 
     return chunks
 
